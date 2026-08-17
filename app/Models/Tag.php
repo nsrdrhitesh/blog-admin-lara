@@ -22,6 +22,11 @@ class Tag extends Model
         return $this->belongsToMany(Blog::class, 'blog_tag');
     }
 
+    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('is_active', true);
+    }
+
     public function publicUrlPrefix(): string
     {
         return '/tag';

@@ -20,6 +20,8 @@ class RolePermissionSeeder extends Seeder
             'comments' => ['view', 'approve', 'delete'],
             'users' => ['view', 'create', 'edit', 'delete'],
             'settings' => ['view', 'edit'],
+            'pages' => ['view', 'create', 'edit', 'delete'],
+            'menus' => ['view', 'edit'],
         ];
 
         $permissions = [];
@@ -52,7 +54,7 @@ class RolePermissionSeeder extends Seeder
                 ),
                 RoleSlug::Editor->value => $role->permissions()->sync(
                     collect($permissions)
-                        ->filter(fn ($p) => in_array($p->group, ['blogs', 'categories', 'tags', 'authors', 'media', 'comments']))
+                        ->filter(fn ($p) => in_array($p->group, ['blogs', 'categories', 'tags', 'authors', 'media', 'comments', 'pages']))
                         ->pluck('id')
                 ),
                 RoleSlug::Author->value => $role->permissions()->sync(

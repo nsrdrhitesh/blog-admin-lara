@@ -3,15 +3,22 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Public\SitemapController;
 use Illuminate\Support\Facades\Route;
 
-// Public-facing routes (blog listing/detail, categories, tags, pages) are
-// added in Phase 3 (Blog Core) — kept out of Phase 1/2 to avoid dangling
-// controller references before those controllers exist.
+// Public-facing blog listing/detail, categories, tags, and page routes still
+// don't exist — this is an admin-only build so far. Sitemap/RSS/robots are
+// the one public-facing surface that landed this phase, since search
+// engines need them regardless of whether a public theme exists yet.
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('sitemap-images.xml', [SitemapController::class, 'images'])->name('sitemap.images');
+Route::get('rss.xml', [SitemapController::class, 'rss'])->name('rss');
+Route::get('robots.txt', [SitemapController::class, 'robots'])->name('robots');
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [LoginController::class, 'create'])->name('login');
