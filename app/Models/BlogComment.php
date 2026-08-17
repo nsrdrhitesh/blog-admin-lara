@@ -34,6 +34,16 @@ class BlogComment extends Model
         return $this->hasMany(BlogComment::class, 'parent_id')->where('status', CommentStatus::Approved);
     }
 
+    /**
+     * Unfiltered version of replies() — used by the admin moderation screen,
+     * which needs to see pending/spam replies to actually moderate them,
+     * unlike a public-facing thread display which should only show approved ones.
+     */
+    public function allReplies(): HasMany
+    {
+        return $this->hasMany(BlogComment::class, 'parent_id');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

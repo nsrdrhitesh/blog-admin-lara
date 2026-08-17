@@ -1,0 +1,17 @@
+# Root .htaccess — only needed if your hosting account's document root
+# points at THIS folder (the project root) rather than the public/
+# subfolder, which is common on cPanel-style shared hosting where you
+# can't change the document root for an addon domain.
+#
+# If you CAN set the document root to point directly at public/ instead
+# (check your host's "Domains" or "Addon Domains" panel), do that instead
+# and delete this file — it's the cleaner setup and public/.htaccess
+# alone is all you need. This file exists for hosts where that isn't an
+# option.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # If the request isn't already inside /public, rewrite it there.
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

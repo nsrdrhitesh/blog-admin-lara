@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'Blog CMS' }}</title>
-    {{-- Play CDN for now — swap for a compiled build/app.css once Tailwind CLI
-         is run locally (see PHASE-2-NOTES.md). No Node required on the server. --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { theme: { extend: { colors: { brand: { 600: '#4f46e5', 700: '#4338ca' } } } } }
-    </script>
+    {{-- See PHASE-9-NOTES.md for the real build pipeline — same
+         compiled-CSS-with-CDN-fallback pattern as layouts/admin.blade.php. --}}
+    @if (file_exists(public_path('build/app.css')))
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    @else
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = { theme: { extend: { colors: { brand: { 600: '#4f46e5', 700: '#4338ca' } } } } }
+        </script>
+    @endif
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
     <div class="flex min-h-screen items-center justify-center px-4">

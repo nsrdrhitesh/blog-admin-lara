@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Alpine's x-cloak only works if this rule exists somewhere — Alpine adds
+   the attribute but relies on CSS to actually hide the element before
+   Alpine finishes initializing. Used across the topbar search dropdown,
+   Quick Actions menu, modals, etc. Also mirrored as an inline <style> in
+   layouts/admin.blade.php's <head> for when the CDN Tailwind fallback is
+   active and this compiled file doesn't exist yet. */
+[x-cloak] {
+  display: none !important;
+}
+
+/* Component classes used across the admin panel and content editor —
+   kept here instead of repeating long utility chains inline in every
+   Blade file, and so TinyMCE's iframe content (Phase 5) and the callout
+   blocks it inserts render consistently with the compiled build. */
+@layer components {
+  .callout {
+    @apply rounded-md border-l-4 border-brand-600 bg-brand-50 px-4 py-3 dark:bg-slate-800;
+  }
+
+  .shimmer {
+    @apply relative overflow-hidden bg-slate-200 dark:bg-slate-800;
+  }
+
+  .shimmer::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+
+  .dark .shimmer::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

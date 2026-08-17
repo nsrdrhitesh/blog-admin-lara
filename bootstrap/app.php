@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
             \App\Http\Middleware\LogActivityMiddleware::class,
+            \App\Http\Middleware\CheckRedirects::class,
         ]);
 
         $middleware->alias([
